@@ -1,0 +1,17 @@
+project:
+  type: book
+
+book:
+  title: "Supplementary Files"
+  subtitle: "Synergy of severe climate change and extinctions results in taxonomic homogenization in deep time"
+  author: "Anonymous"
+  chapters:
+    - index.qmd
+    - 02_AllCalcs.qmd
+    - 03_Fig3.qmd
+    - 04_Fig2.qmd
+
+format:
+  html:
+    toc: true
+    number-sections: true
