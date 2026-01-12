@@ -2,7 +2,6 @@ project:
   type: book
   output-dir: docs
 
-
 book:
   title: "Taxonomic Homogenization Deep Time"
   subtitle: "Supplementary files for: Synergy of severe climate change and extinctions results in taxonomic homogenization in deep time"
@@ -16,4 +15,6 @@ book:
 format:
   html:
     toc: true
-    number-sections: true
+    toc-location: left
+    base-url: /Taxonomic-Homogenization-DeepTime/
+
