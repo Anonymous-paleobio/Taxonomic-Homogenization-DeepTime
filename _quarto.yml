@@ -4,8 +4,8 @@ project:
 
 
 book:
-  title: "Supplementary Files"
-  subtitle: "Synergy of severe climate change and extinctions results in taxonomic homogenization in deep time"
+  title: "Taxonomic Homogenization Deep Time"
+  subtitle: "Supplementary files for: Synergy of severe climate change and extinctions results in taxonomic homogenization in deep time"
   author: "Anonymous"
   chapters:
     - index.qmd
