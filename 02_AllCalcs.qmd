@@ -2,7 +2,7 @@
 title: "All Similarity Calculations"
 title-block-banner: "#014240"
 title-block-banner-color: "#FFFFFF"
-subtitle: "Synergy of severe climate change and extinctions result in taxonomic homogenization in deep yime"
+subtitle: "Synergy of severe climate change and extinctions drive taxonomic homogenization in deep time"
 date: last-modified
 date-format: "YYYY-MM-DD"
 mainfont: Figtree
@@ -51,10 +51,7 @@ editor_options:
 
 Code compiled and curated by anonymous.
 
-
-This code is used to calculate the “**Before**” and “**After**” similarity values for each interval-set, and can be
-customized for an interval and/or data of your choosing. The calculations for all intervals in our analysis are nearly identical by using this script, with the exception of differences in the interval
-names and ages. Here, we provide an example using the calculations for the Late Ordovician mass extinction.
+This code is used to calculate the “**Before**” and “**After**” similarity values for each interval-set, and can be customized for an interval and/or data of your choosing. The calculations for all intervals in our analysis are nearly identical by using this script, with the exception of differences in the interval names and ages. Here, we provide an example using the calculations for the Late Ordovician mass extinction.
 
 ## Libraries
 
@@ -187,13 +184,12 @@ The fossil occurrence data analysed in this study was retrieved from the [Paleob
 
 The following script shows you how we processed the full Phanerozoic `Pbdb` dataset that was downloaded using the `Pbdb_download_new.R` script, which is available in our repository.
 
-However, since that requires you to download the data yourself, we have provided the files of `Pbdb` data used for each interval pair in the `Pbdb_data`
-folder and this section of the script can therefore be skipped. In the
-case of the Late Ordovician mass extinction, it is labelled `pbdb_lome.csv` within that folder. So, you have the option to simply load in that file and skip this section if you so choose!
+However, since that requires you to download the data yourself, we have provided the files of `Pbdb` data used for each interval pair in the `Pbdb_data` folder and this section of the script can therefore be skipped. In the case of the Late Ordovician mass extinction, it is labelled `pbdb_lome.csv` within that folder. So, you have the option to simply load in that file and skip this section if you so choose!
 
 ```{r}
 # Load the csv file directly from our repository: 
-pbdb <- read.csv("https://raw.githubusercontent.com/Anonymous-paleobio/Taxonomic-Homogenization-DeepTime/refs/heads/main/Pbdb-files/pbdb_lome.csv")
+pbdb <- read.csv("https://raw.githubusercontent.com/Anonymous-paleobio/Taxonomic-Homogenization-DeepTime/main/Pbdb_files/pbdb_lome.csv"
+)
 pbdb <- pbdb[, -c(1, 22, 21)]
 
 
@@ -381,9 +377,11 @@ plot(hexa, tcells.after,
 plot(platesMoll$geometry, add = TRUE,border= NA, col = "#66666688")
 
 ```
+
 **After occurrences - Pulse 2**
 
 Occurrences in the After (Pulse 2) stage, with colors indicating the number of occurrences in occupied cells.
+
 ```{R, warning =FALSE}
 # After
 plot(hexa, tcells.after2, 
@@ -561,7 +559,9 @@ pbdb |>
 
 
 ```
+
 For each stage we create individual dataframes based on the cell units and store these into separate lists.
+
 ```{r, warning=FALSE}
 # Data splitting based on cell id and stage.
 before_split <-
@@ -582,7 +582,6 @@ after_split2 <-
   group_split(cell_id) |> 
   lapply(as.data.frame)
 ```
-
 
 ## Subsampling by cells and occurrence
 
@@ -1108,7 +1107,9 @@ sumRes_03 |>
         legend.title = element_text(face = "bold"),
         aspect.ratio = 1)
 ```
+
 <!-- Czekanowski -->
+
 ```{r, warning=FALSE}
 # before
 before_res_matrix <-
@@ -1218,7 +1219,6 @@ sumRes_06 |>
         aspect.ratio = 1)
 ```
 
-
 ## Sensitivity analysis
 
 Similarity measurements by survival status.
@@ -1290,7 +1290,9 @@ sBef_boot_Hir <- subsampling_fun(sBefHir)
 sV_boot_Hir <- subsampling_fun(sVHir)
 sAft_boot_Hir <- subsampling_fun(sAftHir)
 ```
+
 ###Jaccard index calculation
+
 ```{r, warning=FALSE}
 # After survivors.
 after_survivors_jaccard <- jaccard_similarity(sAft_boot)
@@ -1309,7 +1311,9 @@ before_victims_jaccard_Hir <- jaccard_similarity(sV_boot_Hir)
 # Before survivors.
 before_survivors_jaccard_Hir <- jaccard_similarity(sBef_boot_Hir)
 ```
+
 **Averages**
+
 ```{r, warning=FALSE}
 ##First pulse:
 
@@ -1399,6 +1403,7 @@ sumRes_07 <-
   mutate(ci = se * qt(.95, n - 1), ci = as.numeric(ci)) |> 
   as.data.frame()
 ```
+
 ```{r, warning=FALSE}
 # before victims.
 sumRes_08 <-
@@ -1552,6 +1557,7 @@ sumRes_14 |>
         legend.title = element_text(face = "bold"),
         aspect.ratio = 1)
 ```
+
 Setup for the second pulse analysis:
 
 #### Czekanowski index calculation
@@ -1648,6 +1654,7 @@ append_flat_Befs <- mapply(function(x, y) cbind(y, x), flat_Befs, sp_03, SIMPLIF
 # Compute the average czekanowski per cell-pair.
 res_Befs <- bind_rows(append_flat_Befs) |> rename("x.cell" = "cell_x", "y.cell" = "cell_y")
 ```
+
 ```{r, warning=FALSE}
 # Averages.
 ave_s1 <- res_Afts |> 
@@ -1662,6 +1669,7 @@ ave_s3 <- res_Befs |>
   group_by(x.cell,y.cell) |>
   summarise(avg_cz =  mean(cz, na.rm = TRUE))
 ```
+
 **Visualize results**
 
 ```{r, warning=FALSE}
@@ -1701,6 +1709,7 @@ sumRes_15 <-
   mutate(ci = se * qt(.95, n - 1), ci = as.numeric(ci)) |> 
   as.data.frame()
 ```
+
 ```{r, warning=FALSE}
 # Before victims.
 sumRes_16 <-
@@ -1763,6 +1772,7 @@ sumRes_18 |>
         legend.title = element_text(face = "bold"),
         aspect.ratio = 1)
 ```
+
 ## Extra
 
 Count occurrences per genus in the Hirnantian to determine whether they match the disaster taxa in literature, such as the genus Hirnantia.
@@ -1786,14 +1796,14 @@ genus_counts$accepted_name <- factor(genus_counts$accepted_name, levels = genus_
 ggplot(genus_counts, aes(x = count, y = accepted_name)) + theme_classic() + geom_bar(stat = "identity", fill = "dodgerblue3") + labs(x = "Number of Occurrences", y = "Genus Name")+ coord_flip() # Optional: this can be omitted if you want the horizontal bars
 ```
 
-###  Wastebin taxa removed
+### Wastebin taxa removed
 
 Locate and remove all wastebin taxa, following the methods of *Plotnick and Wagner (2005)*. First, using the full database, locate all wastebin taxa throughout the "before" and "after" intervals by finding the 5 most frequent genus occurrences.
 
 ```{r wastebin}
 options(download.file.method = "libcurl")
-pbdb <- read.csv("https://raw.githubusercontent.com/Anonymous-paleobio/Taxonomic-Homogenization-DeepTime/refs/heads/main/Pbdb-files/pbdb_lome.csv")
-
+pbdb <- pbdb <- read.csv("https://raw.githubusercontent.com/Anonymous-paleobio/Taxonomic-Homogenization-DeepTime/main/Pbdb_files/pbdb_lome.csv"
+)
 pbdb <- pbdb[, -c(1, 22, 21)]
 
 
@@ -1825,17 +1835,17 @@ pbdb <- pbdb |>
  pbdb <- pbdb |> 
    cc_val(lat = "paleolat", lon="paleolng") #remove them
 ```
- 
- 
-Next, follow all the steps from **Visualization of Cells and Occurrences** down to **Czekanowski indices** again. You will notice slight changes to the number of cells since filtering out the wastebin taxa reduces the number of occurrences we have. 
 
-##Spatial standardization
+Next, follow all the steps from **Visualization of Cells and Occurrences** down to **Czekanowski indices** again. You will notice slight changes to the number of cells since filtering out the wastebin taxa reduces the number of occurrences we have.
+
+### Spatial standardization
 
 Here, we will apply the `Divvy` package to spatially standardize our data using the circular "cookie" method and re-run our Jaccard calculations with the standarized data.
 
 ```{r Divvy, message=FALSE, warning=FALSE}
  library(raster)
-pbdb <- read.csv("https://raw.githubusercontent.com/Anonymous-paleobio/Taxonomic-Homogenization-DeepTime/refs/heads/main/Pbdb-files/pbdb_lome.csv")
+pbdb <- read.csv("https://raw.githubusercontent.com/Anonymous-paleobio/Taxonomic-Homogenization-DeepTime/main/Pbdb_files/pbdb_lome.csv"
+)
 
 pbdb <- pbdb[, -c(1, 22, 21)]
 
@@ -1979,7 +1989,9 @@ ggplot() +
     color = "Cells in Iteration"
   )
 ```
-CircLocs now has 100 lists of subsampled occurrences which can be viewed with str(circLocs[[1]]):
+
+CircLocs now has 100 lists of subsampled occurrences which can be viewed with str(circLocs\[\[1\]\]):
+
 ```{r}
 str(circLocs[[1]])
 ```
@@ -2046,6 +2058,7 @@ world_sf <- st_as_sf(plates.lome) |> st_transform(crs = prj)
 #  geom_sf(data = smplPts, shape = 17, color = 'navyblue') +
 #  geom_sf(data = buf, fill = NA, linewidth = 1, color = 'navyblue')
 ```
+
 Now, for the same thing with the “after-2” age for the second pulse.
 
 **After the second pulse, spatially standardized:**
@@ -2094,11 +2107,12 @@ world_sf <- st_as_sf(plates.lome) |> st_transform(crs = prj)
 # worldP +
 #  geom_sf(data = smplPts, shape = 17, color = 'navyblue') +
 #  geom_sf(data = buf, fill = NA, linewidth = 1, color = 'navyblue')
-``` 
+```
 
 Next, we will check to see how many InF values we have in `sdSumry$SCOR`. This won't matter for most interval-pairs, but for the P-T and LOME intervals in which homogenization does occur, it's a sanity check to understand why the SCOR does not reflect homogenization -- taxon that are present in all cells analyzed here are given an InF score instead of a numerical value and are not included in the SCOR calculation. As per the [Divvy vignette](https://gawainantell.github.io/divvy/articles/habitat-rangesize-case-study.html) walkthrough: "When a taxon is present in all sampled locations, its log probability of incidence is infinite. Infinity is nonsensical in an empirical comparison (...)."
 
 Since we won't use SCOR beyond this next chunk of code, the SCOR value will not affect our Jaccard calculations even for homogenized intervals, so we can still spatially standardize the data and see how that effects the Jaccard values.
+
 ```{r}
 sdbef <- sdSumry(circLocs, taxVar = 'genus', xy = xyCell, crs = prj)
 sdaft <- sdSumry(circLocsAft, taxVar = 'genus', xy = xyCell, crs = prj) #tons of InF scores here in PT and LOME indicating widespread occurrences and homogenization has occurred.
@@ -2131,7 +2145,7 @@ sdaf2t_mean <- mean(sdaft2_inf$SCOR)
 
 Now, we will calculate the spatially standardized Jaccard similarity for each geologic age:
 
-```{r} 
+```{r}
 # before.
 before_jaccard <- 
   jaccard_similarity(circLocs)
@@ -2167,8 +2181,8 @@ ave_after2_jaccard <-
   rename("x.cell" = "cell_x", "y.cell" = "cell_y")
 ```
 
-
 ##Spatially Standardized Jaccard for the LOME
+
 ```{r}
 # this function will get mean and 95% confidence intervals 
 mean_ci <- function(x, conf = 0.95) {
@@ -2229,5 +2243,5 @@ ggplot(summary_divvy, aes(x = age, y = mean, color = age)) +
   ) +
   theme(legend.position = "none")
 ```
-As a final note, what we just analyzed is the average global Jaccard value of the spatially standardized data. This plot does not separate similarity as a function of distance the way the main calculations do. So, that one number is a global value after the late Ordovician mass extinction after spatially subsampling 100 times using the cookie method, which agrees with our Jaccard calculations beforehand. What we calculated in `Results` beforehand also shows that most of the lowered similarity is from cells that are farther apart from one another and that, for this interval, similarity can vary regionally. By using both methods, we can account for regional differences and for differences in the dispersion of cells.
 
+As a final note, what we just analyzed is the average global Jaccard value of the spatially standardized data. This plot does not separate similarity as a function of distance the way the main calculations do. So, that one number is a global value after the late Ordovician mass extinction after spatially subsampling 100 times using the cookie method, which agrees with our Jaccard calculations beforehand. What we calculated in `Results` beforehand also shows that most of the lowered similarity is from cells that are farther apart from one another and that, for this interval, similarity can vary regionally. By using both methods, we can account for regional differences and for differences in the dispersion of cells.
